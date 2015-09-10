@@ -403,5 +403,30 @@ namespace RatInAMaze_BackTracking
          *     check all paths in the function, miss a return? default is true/false, answer this basic question. 
          *     only return true if confirmation of path is found, reaching target position. 
          */
+
+        /*
+         * Another interesting reading:
+         * http://blogs.msdn.com/b/mattwar/archive/2005/02/03/366498.aspx
+         * 
+         * The Setup
+         * 
+         * Like those comments from the interviewer: 
+         * 
+         * Fortunately, that's not the way it works here either. Finding a correct solution 
+         * to the problem is not the end goal. In an interview I assume you can do that. 
+         * What is more important to me as an interviewer is what I learn about you as you 
+         * attempt to solve it. Like, do you communicate well. Do you test your assumptions? 
+         * Do you have any assumptions? Do you believe in your solution? Can you apply what 
+         * you've just learned to a follow up question/scenario? Do you identify the full 
+         * problem before plunging into the deep end? Are you able to back out of a dead end? 
+         * Do you recognize when you are at a dead end? 
+         * 
+         * The solution blog:
+         * http://blogs.msdn.com/b/mattwar/archive/2005/02/11/371274.aspx
+         * 
+         * Julia's comment: 
+         * 
+         *  enjoy the reading of the material. One practice leads more reading, ...
+         */
     }
 }
