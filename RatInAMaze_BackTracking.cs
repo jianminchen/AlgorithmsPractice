@@ -391,13 +391,17 @@ namespace RatInAMaze_BackTracking
 
          * Julia's comment: 
          * 
-         *    remember the pseudo code algorith FIN-PATH(x,y), and never fail on any back tracking algorithm again. 
+         *  1. remember the pseudo code algorith FIN-PATH(x,y), and never fail on any back tracking algorithm again. 
          *    debates about base cases: 
          *    if (x,y outside maze) return false
               if (x,y is goal) return true
               if (x,y not open) return false
          
               The above order can be adjusted? 
+         *  2. My practice mistake (9/10/2015, solveMazeUtil_C) is "return false" in the pseudo code, 
+         *     last line; how to prevent it next time?
+         *     check all paths in the function, miss a return? default is true/false, answer this basic question. 
+         *     only return true if confirmation of path is found, reaching target position. 
          */
     }
 }
