@@ -345,7 +345,59 @@ namespace RatInAMaze_BackTracking
 
             /* step 6: return false */
             return false;
-        }        
+        }
 
+        /*
+         * good reading:  (9/10/2015)
+         * https://www.cs.bu.edu/teaching/alg/maze/
+         * 
+         * We'll solve the problem of finding and marking a solution path using recursion.
+            Remember that a recursive algorithm has at least 2 parts:
+
+            Base case(s) that determine when to stop.
+            Recursive part(s) that call the same algorithm (i.e., itself) to assist in solving the problem.
+         
+            Base cases
+
+            It's not enough to know how to use FIND-PATH recursively to advance 
+            through the maze. We also need to determine when FIND-PATH must stop.
+            One such base case is to stop when it reaches the goal.
+
+            The other base cases have to do with moving to invalid positions. For example, 
+            we have mentioned how to search North of the current position, but disregarded 
+            whether that North position is legal. In order words, we must ask:
+
+            Is the position in the maze (...or did we just go outside its bounds)?
+            Is the position open (...or is it blocked with an obstacle)?
+            Now, to our base cases and recursive parts, we must add some steps to mark positions 
+            we are trying, and to unmark positions that we tried, but from which we failed to reach the goal:
+
+            FIND-PATH(x, y)
+
+            if (x,y outside maze) return false
+            if (x,y is goal) return true
+            if (x,y not open) return false
+            mark x,y as part of solution path
+            if (FIND-PATH(North of x,y) == true) return true
+            if (FIND-PATH(East of x,y) == true) return true
+            if (FIND-PATH(South of x,y) == true) return true
+            if (FIND-PATH(West of x,y) == true) return true
+            unmark x,y as part of solution path
+            return false
+         
+            All these steps together complete a basic algorithm that finds and marks a path to 
+            the goal (if any exists) and tells us whether a path was found or not (i.e., 
+            returns true or false). This is just one such algorithm--other variations are possible.
+
+         * Julia's comment: 
+         * 
+         *    remember the pseudo code algorith FIN-PATH(x,y), and never fail on any back tracking algorithm again. 
+         *    debates about base cases: 
+         *    if (x,y outside maze) return false
+              if (x,y is goal) return true
+              if (x,y not open) return false
+         
+              The above order can be adjusted? 
+         */
     }
 }
