@@ -73,7 +73,11 @@ namespace RatInAMaze_BackTracking
         static void Main(string[] args)
         {
             int[,] maze = new int[4, 4] { { 1, 0, 0, 0 }, { 1, 1, 0, 1 }, { 0, 1, 0, 0 }, { 1, 1, 1, 1 } };
-            solveMaze(maze);
+            int[,] maze1 = new int[4, 4] { { 1, 1, 1, 1 }, { 1, 1, 0, 1 }, { 0, 1, 0, 0 }, { 1, 1, 1, 1 } };
+            int[,] maze2 = new int[4, 4] { { 1, 1, 1, 1 }, { 1, 1, 0, 1 }, { 0, 1, 0, 0 }, { 1, 1, 1, 1 } };
+            int[,] maze3 = new int[4, 4] { { 1, 1, 1, 1 }, { 1, 1, 0, 1 }, { 0, 0, 0, 1 }, { 1, 1, 1, 1 } };
+
+            solveMaze(maze2, 3);
 
             return;
         }
@@ -92,15 +96,7 @@ namespace RatInAMaze_BackTracking
             }
         }
 
-        /* a utility function to check if x, y is valid index for N*N maze
-        */
-        public static bool isSafe(int[,] maze, int x, int y)
-        {
-            //if(x,y outside maze) return false
-            if (x >= 0 && x < N && y >= 0 && y < N && maze[x, y] == 1)
-                return true; 
-            return false; 
-        }
+        
 
         /* this function solves the Maze problem using Backtracking. It mainly uses 
          * solveMazeUtil() to solve the problem. It returns false if no path is possible, 
@@ -110,22 +106,59 @@ namespace RatInAMaze_BackTracking
          * julia's comment: 
          * 
          */
-        public static bool solveMaze(int[,] maze)
+        public static bool solveMaze(int[,] maze, int no)
         {
             int[,] sol = new int[4,4]{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
 
-            if (solveMazeUtil(maze, 0, 0, sol) == false)
+            switch(no)
             {
-                System.Console.WriteLine("Solution doesn't exist");
-                return false; 
+                case 1: 
+                    if (solveMazeUtil(maze, 0, 0, sol) == false)
+                    {
+                        System.Console.WriteLine("Solution doesn't exist");
+                        return false; 
+                    }
+                    break; 
+                case 2:
+                    if (solveMazeUtil_B(maze, 0, 0, sol) == false)
+                    {
+                        System.Console.WriteLine("Solution doesn't exist");
+                        return false;
+                    }
+                    break; 
+                case 3: 
+                    if (solveMazeUtil_C(maze, 0, 0, sol) == false)
+                    {
+                        System.Console.WriteLine("Solution doesn't exist");
+                        return false;
+                    }
+                    break; 
+
             }
 
             printSolution(sol); 
             return true; 
         }
 
+        public static bool solveMaze_B(int[,] maze)
+        {
+            int[,] sol = new int[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
+
+            if (solveMazeUtil_B(maze, 0, 0, sol) == false)
+            {
+                System.Console.WriteLine("Solution doesn't exist");
+                return false;
+            }
+
+            printSolution(sol);
+            return true;
+        }
+
         /*
-         * A recursive utility function to solve Maze problem 
+         * A recursive utility function to solve Maze problem          
+         * code reference:
+         *  http://www.geeksforgeeks.org/backttracking-set-2-rat-in-a-maze/
+         *  
          */
         public static bool solveMazeUtil(int[,] maze, int x, int y, int[,] sol)
         {
@@ -159,6 +192,160 @@ namespace RatInAMaze_BackTracking
              return false;                      
         }
 
-        
+        /* a utility function to check if x, y is valid index for N*N maze
+        */
+        public static bool isSafe(int[,] maze, int x, int y)
+        {
+            //if(x,y outside maze) return false
+            if (x >= 0 && x < N && y >= 0 && y < N && maze[x, y] == 1)
+                return true;
+            return false;
+        }
+
+        /*
+         * Julia's comment:
+         * 1. make some code change: 
+         * 2. add thought process. 
+         *    review thought process, refine the process. 
+         *    
+        * A recursive utility function to solve Maze problem 
+        * thought process: 
+        * 1. Base case: reach the goal (N-1, N-1) 
+        * 
+        * 2. check if maze[x, y] is valid, if not, return false early, 
+        * 
+        * 3. Action: 
+        *    mark x, y as part of the solution  <- need to undo the change in step 7 
+        *   
+        * 4, 5: 
+        * step 4 and 5 can be switched in order ( right, down) or (down, right):
+        *  If it is, then, move forward with two possible directions:
+        *   step 4:  first try, in x direction, (can be down direction)
+        *    return true if the path is found; 
+        *     
+        *   step 5: if moving in x direction doesn't give solution then move down in y direction, 
+        *    return true if the path is found. 
+         *    
+        * 6. backtracking step, most important one. 
+        *    If none of the above movements work then do backtracking, 
+        *    unmark x, y as part of the solution path. 
+         *   In other words, undo the step 3.          *   
+         * 
+         *7. return false; 
+         *
+        * So, in other words, 7 steps, 
+        *     first step is base case, 
+        *     and second step is checking maze[x,y] is valid, return false ealy if it is not.  
+         *     
+        *     Do some work, try to add (x,y) in the solution path, if true, return, otherwise, undo the change: 
+        *        mark x, y as part of the solution path. 
+        *        
+        *     third step, try to move forward in two possible directions. 
+        *     first try in x direction, if failed, then try second direction, y direction. 
+         *     
+        *     If both of tries fails, then back tracking, 
+        *      
+        *     unmark x, y as part of the solution path. 
+         *    
+         *    return false at the end of function. 
+         *    
+         * Try to have some debates here: 
+         *  1. two arrays, one is maze array, one is solution array, both are two dimensional array. 
+         *     Solution array is declared inside the function solveMaze_B
+         *  2. What are easy mistakes on the coding: 
+         *    1. isSafe checking not complete: check boundary, also check the value of position in the maze is reachable. 
+         *    2. forget to do backtracking, so that the solution cannot be found
+         *    3. function return false at the end - 'Not all pathes returns value - default is returning false, instead of true'
+         *    4. various try of next move has 2 directions, some problem may have 4 cases. 
+         *    5. use array to contain directions info, the code can be different, try it and see difference
+         *        solveMazeUtil_C
+        * 
+        */
+        public static bool solveMazeUtil_B(int[,] A, int x, int y, int[,] sol)
+        {
+            // step 1: base case 
+            if (x == (N - 1) && y == (N - 1))
+            {
+                sol[x, y] = 1;
+                return true;
+            }
+
+            // step 2: check if maze[x,y] is valid
+            if (!isSafe(A, x, y))
+                return false; 
+
+            
+            // step 3: mark x, y as part of the solution path  <- try the position as a solution
+            sol[x, y] = 1;
+
+            /* step 4:  move forward in x direction*/
+            if (solveMazeUtil_B(A, x + 1, y, sol))         // one direction, can be right or down, choose one
+                return true;
+
+            /* step 5: If moving in x direction doesn't give solution then
+                move down in y direction */
+            if (solveMazeUtil_B(A, x, y + 1, sol))
+                return true;
+
+            /* step 6: If none of the above movements work then BACKTRACK:
+                unmark x, y as part of solution path */
+            sol[x, y] = 0;                                       /* <-  undo the change, because of failure */        
+            /* step 7: return false */
+            return false; 
+        }
+
+        /*
+         * julia's comment: 
+         * 
+         * write my own version code, make some changes. And see what I learn through the new version. 
+         * 
+         * using array to include direction information 
+         * some debates: 
+         *  1.  using two dimension array to contain the direction info, and then, 
+         *      go through array first dimension. 
+         *   
+         *   another way is to go through one by one, directions info is scattered around. 
+         *   
+         *  2. Get familiar with two dimension array usage. 
+         */
+        public static bool solveMazeUtil_C(int[,] A, int x, int y, int[,] sol)
+        {
+            // step 1: base case 
+            if (x == (N - 1) && y == (N - 1))
+            {
+                sol[x, y] = 1;
+                return true;
+            }
+
+            // step 2: check if maze[x,y] is valid
+            if (!isSafe(A, x, y))
+                return false;
+
+
+            // step 3: mark x, y as part of the solution path  <- try the position as a solution
+            sol[x, y] = 1;
+
+            // step 4: all directions 
+            int[,] directions = new int[2, 2] {{0,1}, {1,0}};
+
+            int size = directions.GetLength(0);  // first dimension            
+
+            for (int i = 0; i < size; i++)       // go through first dimension, not second one 
+            {
+                int tmpX = x + directions[i, 0]; 
+                int tmpY = y + directions[i, 1]; 
+
+                if(solveMazeUtil_C(A, tmpX, tmpY, sol) )
+                    return true;  
+            }           
+
+            /* step 5: If none of the above movements work then BACKTRACK:
+                unmark x, y as part of solution path */
+            sol[x, y] = 0;                                       /* <-  undo the change, because of failure */
+
+            /* step 6: return false */
+            return false;
+        }        
+
     }
 }
