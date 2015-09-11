@@ -262,8 +262,10 @@ namespace RatInAMaze_BackTracking
          *    2. forget to do backtracking, so that the solution cannot be found
          *    3. function return false at the end - 'Not all pathes returns value - default is returning false, instead of true'
          *    4. various try of next move has 2 directions, some problem may have 4 cases. 
+         *    4B. if there are 4 directions, avoid cycle /loop, in the solution path. 
          *    5. use array to contain directions info, the code can be different, try it and see difference
          *        solveMazeUtil_C
+         *    
         * 
         */
         public static bool solveMazeUtil_B(int[,] A, int x, int y, int[,] sol)
