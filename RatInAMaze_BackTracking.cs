@@ -407,6 +407,8 @@ namespace RatInAMaze_BackTracking
          *     last line; how to prevent it next time?
          *     check all paths in the function, miss a return? default is true/false, answer this basic question. 
          *     only return true if confirmation of path is found, reaching target position. 
+         *     
+         *  3. If the moving direction is down and right, then, no way to form a loop; but if there are 4 directions to move, maybe, there is a loop; so extra checking needs to be done, "make sure that node is not in the path already". Because deadlock may be formed since there is a loop. (9/11/2015, second day thought after review of 9/10/2015)
          */
 
         /*
