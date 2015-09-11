@@ -108,7 +108,12 @@ namespace RatInAMaze_BackTracking
          */
         public static bool solveMaze(int[,] maze, int no)
         {
-            int[,] sol = new int[4,4]{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
+            //int[,] sol = new int[4,4]{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
+            int[,] sol = new int[N, N];            
+
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                    sol[i, j] = 0; 
 
             switch(no)
             {
@@ -143,7 +148,7 @@ namespace RatInAMaze_BackTracking
         public static bool solveMaze_B(int[,] maze)
         {
             int[,] sol = new int[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
-
+            
             if (solveMazeUtil_B(maze, 0, 0, sol) == false)
             {
                 System.Console.WriteLine("Solution doesn't exist");
