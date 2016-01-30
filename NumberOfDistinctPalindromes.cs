@@ -90,7 +90,7 @@ namespace NumberOfDistinctPalindromes
             {
                 if (count <= len / 2)
                 {
-                    if (s[count] == s[s.Length - count - 1])   // bug 01: -1, out-of-range error
+                    if (s[count] == s[s.Length - count - 1])   // bug 01: not "s.Length - count", should be "s.Length - count", run-time error: out-of-range error - think about doing compile time checking to save time
                         count++;
                     else
                         return false;
