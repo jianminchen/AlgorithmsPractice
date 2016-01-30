@@ -76,7 +76,7 @@ namespace NumberOfDistinctPalindromes
         /*
          * Julia's comment: 
          * 1. count variable's scope is larger than necessary
-         * 2. for loop is not full used. 
+         * 2. for loop is not fully used. 
          */
         [Obsolete]
         public static bool isPalindromeFirst(string s)
