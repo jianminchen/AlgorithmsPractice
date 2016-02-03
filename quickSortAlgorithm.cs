@@ -40,6 +40,11 @@ namespace quickSortAlgorithm
          *    two pointers - one pointer is to iterate whole array, except pivot point 
          *    second pointer - position of first node bigger than pivot value
          *    
+         *   Actually, after the practice of February 2, 2016, Julia found out that two pointers can be designed much easy way:
+         *   1. First pointer  - look for second partition part - right partition  - start position
+         *   2. Second pointer - look for second partition part - right partition - end position 
+         *   and also, in partition process, in-place swap is used. 
+         *  
          *    Do not forget to swap second pointer value with pivot point value <- 
          * 5. Practice to write code using array - how to write code without a bug? 
          * 6. the output is stored in the input argument A[] 
